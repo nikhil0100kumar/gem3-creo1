@@ -1,85 +1,126 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { RevealText } from './ui/RevealText';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { MagneticButton } from './ui/MagneticButton';
 
 const projects = [
   {
     id: 1,
     title: "Villa Nova",
-    location: "Copenhagen, Denmark",
+    location: "Copenhagen",
+    year: "2023",
     image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop",
-    className: "col-span-1 md:col-span-2 aspect-[4/3]"
   },
   {
     id: 2,
     title: "The Obsidian",
-    location: "Kyoto, Japan",
+    location: "Kyoto",
+    year: "2022",
     image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2000&auto=format&fit=crop",
-    className: "col-span-1 aspect-[3/4] mt-0 md:mt-32"
   },
   {
     id: 3,
     title: "Concrete Solace",
-    location: "Portland, USA",
+    location: "Portland",
+    year: "2024",
     image: "https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2000&auto=format&fit=crop",
-    className: "col-span-1 aspect-square"
-  }
+  },
+  {
+    id: 4,
+    title: "Azure Heights",
+    location: "Bangalore",
+    year: "2021",
+    image: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?q=80&w=2000&auto=format&fit=crop",
+  },
 ];
 
 export const Projects: React.FC = () => {
+  const targetRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+  });
+
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
+
   return (
-    <section className="w-full bg-primary py-32 px-6 md:px-10">
-      <div className="flex flex-col items-center text-center mb-24">
-        <RevealText>
-          <h2 className="font-display text-8xl md:text-[10rem] leading-[0.8] font-bold uppercase text-secondary">
-            Selected
-          </h2>
-        </RevealText>
-        <RevealText delay={0.1}>
-          <h2 className="font-display text-8xl md:text-[10rem] leading-[0.8] font-bold uppercase text-transparent stroke-text-black">
-            Projects
-          </h2>
-        </RevealText>
-      </div>
+    <section ref={targetRef} className="relative h-[300vh] bg-secondary text-white hidden md:block">
+      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+        
+        {/* Fixed Header Overlay */}
+        <div className="absolute top-10 left-10 z-20 mix-blend-difference">
+           <h2 className="font-display text-4xl font-bold uppercase tracking-tight">Selected Works</h2>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-20">
-        {projects.map((project) => (
-          <div key={project.id} className={`relative group cursor-pointer overflow-hidden ${project.className}`}>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.8, ease: "circOut" }}
-              className="w-full h-full"
-            >
-              <img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-              />
-            </motion.div>
-            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="absolute bottom-8 left-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0">
-              <h3 className="font-display text-4xl uppercase font-bold">{project.title}</h3>
-              <p className="font-sans text-sm tracking-widest mt-2">{project.location}</p>
-            </div>
+        <motion.div style={{ x }} className="flex gap-16 px-20 w-full">
+          
+          {/* Intro Card */}
+          <div className="flex-shrink-0 w-[40vw] h-[70vh] flex flex-col justify-center">
+             <h2 className="font-display text-[8rem] leading-[0.8] font-bold uppercase mb-8">
+               The<br/>Work
+             </h2>
+             <p className="text-gray-400 max-w-md text-xl leading-relaxed mb-10">
+               A curated selection of our defining projects. Where engineering meets art, and vision becomes reality.
+             </p>
+             <MagneticButton>
+                <div className="w-32 h-32 rounded-full border border-white/20 flex items-center justify-center uppercase text-xs tracking-widest font-bold hover:bg-white hover:text-secondary transition-all duration-300 cursor-pointer">
+                  Drag ->
+                </div>
+             </MagneticButton>
           </div>
-        ))}
-      </div>
 
-      <div className="flex justify-center">
-        <MagneticButton>
-          <button className="px-10 py-4 border border-secondary rounded-full text-secondary uppercase tracking-widest text-xs font-bold hover:bg-secondary hover:text-white transition-all duration-300">
-            View All Projects
-          </button>
-        </MagneticButton>
-      </div>
+          {/* Project Cards */}
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
 
-      <style>{`
-        .stroke-text-black {
-          -webkit-text-stroke: 2px black;
-          color: transparent;
-        }
-      `}</style>
+          {/* Outro Card */}
+          <div className="flex-shrink-0 w-[30vw] h-[70vh] flex items-center justify-center">
+             <MagneticButton>
+                <button className="text-8xl font-display uppercase font-bold hover:text-gray-400 transition-colors">
+                  View All<br/>Projects
+                </button>
+             </MagneticButton>
+          </div>
+
+        </motion.div>
+      </div>
     </section>
   );
+};
+
+interface ProjectCardProps {
+  project: typeof projects[0];
+}
+
+const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+  return (
+    <div className="group relative w-[60vw] h-[70vh] flex-shrink-0 overflow-hidden bg-neutral-900 grayscale hover:grayscale-0 transition-all duration-700 ease-out">
+      <img
+        src={project.image}
+        alt={project.title}
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
+      
+      <div className="absolute bottom-0 left-0 w-full p-10 flex justify-between items-end transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+        <div>
+          <div className="flex items-center gap-4 mb-2">
+             <span className="text-xs font-bold border border-white/30 rounded-full px-3 py-1">{project.year}</span>
+             <span className="text-xs font-bold uppercase tracking-widest">{project.location}</span>
+          </div>
+          <h3 className="font-display text-6xl uppercase font-bold">{project.title}</h3>
+        </div>
+        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+           <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-black">
+              ->
+           </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Fallback for Mobile (Vertical Stack)
+export const MobileProjects = () => {
+    // Implementation of vertical stack for mobile would go here or be integrated into main component with media queries
+    return null; // handled via CSS hidden/block classes in main App structure if needed, or merging logic.
 };
