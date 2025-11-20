@@ -1,29 +1,28 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RevealText } from './ui/RevealText';
 
 const steps = [
-  { 
-    id: "01", 
-    title: "DISCOVERY & VISION", 
+  {
+    id: "01",
+    title: "DISCOVERY & VISION",
     desc: "We begin by listening. Understanding your needs, your site, and your dreams. Every great structure starts with a conversation.",
     image: "https://images.unsplash.com/photo-1517581177697-a533d8d55178?q=80&w=2000&auto=format&fit=crop" // Meeting/Sketching
   },
-  { 
-    id: "02", 
-    title: "CONCEPT & DESIGN", 
+  {
+    id: "02",
+    title: "CONCEPT & DESIGN",
     desc: "Translating ideas into form. Sketches, 3D models, and material selection. We iterate until the design speaks to the soul.",
     image: "https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2000&auto=format&fit=crop" // Architectural Model/Draft
   },
-  { 
-    id: "03", 
-    title: "COLLABORATION & BUILD", 
+  {
+    id: "03",
+    title: "COLLABORATION & BUILD",
     desc: "Working closely with engineers and builders to ensure precision. We manage the chaos of construction to deliver peace of mind.",
     image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2000&auto=format&fit=crop" // Construction/Site
   },
-  { 
-    id: "04", 
-    title: "DELIVERY & IMPACT", 
+  {
+    id: "04",
+    title: "DELIVERY & IMPACT",
     desc: "The final walkthrough. Handing over the keys to your new reality. We ensure every detail is perfect before you step inside.",
     image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=2000&auto=format&fit=crop" // Finished Luxury Home
   },
@@ -37,7 +36,7 @@ export const Process: React.FC = () => {
       <div className="flex flex-col md:flex-row">
         {/* Left Sticky Header & Dynamic Image */}
         <div className="w-full md:w-1/2 h-[50vh] md:h-screen sticky top-0 flex flex-col justify-center z-10 bg-secondary overflow-hidden">
-          
+
           {/* Dynamic Background Image Layer */}
           <div className="absolute inset-0 z-0">
             <AnimatePresence mode="wait">
@@ -62,7 +61,7 @@ export const Process: React.FC = () => {
           </div>
 
           <div className="relative z-10 px-6 md:px-10 pointer-events-none">
-            <motion.span 
+            <motion.span
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               key={`label-${activeStep}`}
@@ -70,11 +69,11 @@ export const Process: React.FC = () => {
             >
               ● Step {steps[activeStep].id}
             </motion.span>
-            
+
             <h2 className="font-display text-5xl md:text-8xl font-bold uppercase leading-[0.9] mb-8 drop-shadow-2xl">
               From Vision<br />To Reality
             </h2>
-            
+
             <p className="text-white/90 max-w-sm leading-relaxed font-medium drop-shadow-lg text-lg">
               Our proven methodology ensures that every detail is considered, from the first sketch to the final stone.
             </p>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { MagneticButton } from './ui/MagneticButton';
 import { Instagram, Twitter, Linkedin, Facebook } from 'lucide-react';
 
@@ -8,9 +7,9 @@ export const Footer: React.FC = () => {
     <footer className="relative w-full min-h-screen bg-secondary text-white overflow-hidden pt-32 flex flex-col justify-between">
       {/* Background Image */}
       <div className="absolute inset-0 opacity-20 pointer-events-none">
-        <img 
-          src="https://images.unsplash.com/photo-1545558014-8692077e9b5c?q=80&w=2000&auto=format&fit=crop" 
-          alt="Cathedral Ceiling" 
+        <img
+          src="https://images.unsplash.com/photo-1545558014-8692077e9b5c?q=80&w=2000&auto=format&fit=crop"
+          alt="Cathedral Ceiling"
           className="w-full h-full object-cover grayscale"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-secondary via-transparent to-transparent" />
@@ -44,9 +43,9 @@ export const Footer: React.FC = () => {
 
           <div className="flex flex-col gap-4">
             <h4 className="font-display text-lg uppercase tracking-widest mb-2 text-gray-400">Office</h4>
-            <p className="text-sm text-gray-300">No 37, 21st Main Road, Marenahalli,<br/>JP Nagar 2nd Phase,<br/>Bangalore 560078</p>
+            <p className="text-sm text-gray-300">No 37, 21st Main Road, Marenahalli,<br />JP Nagar 2nd Phase,<br />Bangalore 560078</p>
             <p className="text-sm text-gray-300 mt-2">+91 9705075741</p>
-            <p className="text-sm text-gray-300 mt-2">pavankumar.k@creodesigners.com<br/>creoarchitects1@gmail.com</p>
+            <p className="text-sm text-gray-300 mt-2">pavankumar.k@creodesigners.com<br />creoarchitects1@gmail.com</p>
           </div>
 
           <div className="flex flex-col gap-4">
