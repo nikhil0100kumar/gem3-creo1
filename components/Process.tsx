@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { RevealText } from './ui/RevealText';
 
 const steps = [
@@ -36,66 +36,70 @@ export const Process: React.FC = () => {
     <section className="relative w-full bg-secondary text-white py-20">
       <div className="flex flex-col md:flex-row">
         {/* Left Sticky Header & Dynamic Image */}
-        <div className="w-full md:w-1/2 h-auto md:h-screen sticky top-0 flex flex-col justify-center z-10 bg-secondary overflow-hidden">
+        <div className="w-full md:w-1/2 h-[50vh] md:h-screen sticky top-0 flex flex-col justify-center z-10 bg-secondary overflow-hidden">
           
           {/* Dynamic Background Image Layer */}
           <div className="absolute inset-0 z-0">
-            {steps.map((step, index) => (
+            <AnimatePresence mode="wait">
               <motion.div
-                key={step.id}
+                key={activeStep}
                 className="absolute inset-0 w-full h-full"
-                initial={{ opacity: 0 }}
-                animate={{ 
-                  opacity: activeStep === index ? 1 : 0,
-                  scale: activeStep === index ? 1.05 : 1.15
-                }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
+                initial={{ opacity: 0, scale: 1.1 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
               >
                 <img
-                  src={step.image}
-                  alt={step.title}
-                  className="w-full h-full object-cover opacity-60"
+                  src={steps[activeStep].image}
+                  alt={steps[activeStep].title}
+                  className="w-full h-full object-cover opacity-70"
                 />
                 {/* Gradient Overlay for Text Readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/20 to-transparent" />
-                <div className="absolute inset-0 bg-black/30" />
+                <div className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/40 to-transparent" />
+                <div className="absolute inset-0 bg-black/20" />
               </motion.div>
-            ))}
+            </AnimatePresence>
           </div>
 
-          <div className="relative z-10 px-6 md:px-10">
-            <span className="block text-accent font-bold tracking-widest uppercase text-sm mb-4">
-              ● The Process
-            </span>
-            <RevealText>
-              <h2 className="font-display text-6xl md:text-8xl font-bold uppercase leading-[0.9] mb-8 drop-shadow-2xl">
-                From Vision<br />To Reality
-              </h2>
-            </RevealText>
-            <p className="text-white/80 max-w-xs leading-relaxed font-medium drop-shadow-lg">
+          <div className="relative z-10 px-6 md:px-10 pointer-events-none">
+            <motion.span 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              key={`label-${activeStep}`}
+              className="block text-accent font-bold tracking-widest uppercase text-sm mb-4"
+            >
+              ● Step {steps[activeStep].id}
+            </motion.span>
+            
+            <h2 className="font-display text-5xl md:text-8xl font-bold uppercase leading-[0.9] mb-8 drop-shadow-2xl">
+              From Vision<br />To Reality
+            </h2>
+            
+            <p className="text-white/90 max-w-sm leading-relaxed font-medium drop-shadow-lg text-lg">
               Our proven methodology ensures that every detail is considered, from the first sketch to the final stone.
             </p>
           </div>
         </div>
 
         {/* Right Scrolling List */}
-        <div className="w-full md:w-1/2 px-6 md:px-10 pb-20 md:pb-0 bg-secondary/80 backdrop-blur-sm z-20">
+        <div className="w-full md:w-1/2 px-6 md:px-10 pb-20 md:pb-0 bg-secondary/90 backdrop-blur-sm z-20">
           {steps.map((step, index) => (
-            <div key={step.id} className="min-h-[60vh] md:min-h-screen flex flex-col justify-center border-b border-white/10 last:border-none group">
+            <div key={step.id} className="min-h-[70vh] md:min-h-screen flex flex-col justify-center border-b border-white/10 last:border-none group">
               <motion.div
                 initial={{ opacity: 0.2, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ margin: "-50% 0px -50% 0px" }}
                 onViewportEnter={() => setActiveStep(index)}
                 transition={{ duration: 0.6 }}
+                className="cursor-default"
               >
                 <span className={`font-display text-4xl md:text-6xl font-bold mb-4 block transition-colors duration-500 ${activeStep === index ? 'text-white' : 'text-white/20'}`}>
                   {step.id}/
                 </span>
-                <h3 className={`font-display text-4xl md:text-5xl font-bold uppercase mb-6 transition-colors duration-500 ${activeStep === index ? 'text-white' : 'text-white/40'}`}>
+                <h3 className={`font-display text-3xl md:text-5xl font-bold uppercase mb-6 transition-colors duration-500 ${activeStep === index ? 'text-white' : 'text-white/40'}`}>
                   {step.title}
                 </h3>
-                <p className={`font-sans text-xl max-w-md leading-relaxed transition-colors duration-500 ${activeStep === index ? 'text-gray-200' : 'text-gray-600'}`}>
+                <p className={`font-sans text-lg md:text-xl max-w-md leading-relaxed transition-colors duration-500 ${activeStep === index ? 'text-gray-200' : 'text-gray-600'}`}>
                   {step.desc}
                 </p>
               </motion.div>

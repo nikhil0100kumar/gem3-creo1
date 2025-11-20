@@ -44,13 +44,23 @@ export const Projects: React.FC = () => {
       if (scrollContainerRef.current) {
         const scrollWidth = scrollContainerRef.current.scrollWidth;
         const clientWidth = window.innerWidth;
-        setScrollRange(scrollWidth - clientWidth);
+        // Add a small buffer (e.g. 100px) to ensure the last item is fully comfortable in view
+        setScrollRange(Math.max(0, scrollWidth - clientWidth + 100));
       }
     };
 
+    // Initial check
     updateScrollRange();
+    
+    // Update on resize
     window.addEventListener('resize', updateScrollRange);
-    return () => window.removeEventListener('resize', updateScrollRange);
+    // Also update after a small delay to ensure images/fonts have laid out
+    const timer = setTimeout(updateScrollRange, 500);
+
+    return () => {
+      window.removeEventListener('resize', updateScrollRange);
+      clearTimeout(timer);
+    };
   }, []);
 
   const { scrollYProgress } = useScroll({
@@ -70,7 +80,7 @@ export const Projects: React.FC = () => {
            <h2 className="font-display text-4xl font-bold uppercase tracking-tight">Selected Works</h2>
         </div>
 
-        <motion.div ref={scrollContainerRef} style={{ x }} className="flex gap-16 px-20 w-max">
+        <motion.div ref={scrollContainerRef} style={{ x }} className="flex gap-16 px-20 w-max items-center">
           
           {/* Intro Card */}
           <div className="flex-shrink-0 w-[40vw] h-[70vh] flex flex-col justify-center pl-10">
@@ -95,7 +105,7 @@ export const Projects: React.FC = () => {
           {/* Outro Card */}
           <div className="flex-shrink-0 w-[30vw] h-[70vh] flex items-center justify-center pr-20">
              <MagneticButton>
-                <button className="text-8xl font-display uppercase font-bold hover:text-gray-400 transition-colors whitespace-nowrap">
+                <button className="text-8xl font-display uppercase font-bold hover:text-gray-400 transition-colors whitespace-nowrap text-left leading-none">
                   View All<br/>Projects
                 </button>
              </MagneticButton>
