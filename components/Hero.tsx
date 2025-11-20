@@ -15,27 +15,27 @@ const revealVariants = {
 
 export const Hero: React.FC = () => {
   const { scrollY } = useScroll();
-  // Parallax + Zoom Out effect
+  // Parallax + Zoom Out effect - Optimized limits
   const y = useTransform(scrollY, [0, 1000], [0, 400]);
   const scale = useTransform(scrollY, [0, 1000], [1.1, 1.2]); 
-  // Adjusted opacity to stay visible longer
   const opacity = useTransform(scrollY, [0, 1000], [1, 0.5]);
 
   return (
     <section className="relative w-full h-screen overflow-hidden bg-secondary text-white">
-      {/* Background Image Container - Explicit Z-Index 0 */}
+      {/* Background Image Container - GPU Promoted Layer */}
       <motion.div 
         style={{ y, scale, opacity }} 
-        className="absolute inset-0 w-full h-full z-0"
+        className="absolute inset-0 w-full h-full z-0 will-change-transform"
       >
         <img
-          src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?q=80&w=2674&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?q=75&w=1600&auto=format&fit=crop"
           alt="Brutalist Architecture"
           className="w-full h-full object-cover"
+          loading="eager"
         />
-        {/* Dark Gradient Overlays for text readability */}
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-secondary via-transparent to-black/50 opacity-90" />
+        {/* Dark Gradient Overlays */}
+        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-secondary via-transparent to-black/40 opacity-90" />
       </motion.div>
 
       <div className="relative z-10 w-full h-full flex flex-col justify-between pb-12 px-6 md:px-12 pt-32">
