@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { MagneticButton } from './ui/MagneticButton';
 
@@ -35,26 +35,46 @@ const projects = [
 
 export const Projects: React.FC = () => {
   const targetRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollRange, setScrollRange] = useState(0);
+
+  // Mathematically calculate the exact scroll distance needed
+  useEffect(() => {
+    const updateScrollRange = () => {
+      if (scrollContainerRef.current) {
+        const scrollWidth = scrollContainerRef.current.scrollWidth;
+        const clientWidth = window.innerWidth;
+        setScrollRange(scrollWidth - clientWidth);
+      }
+    };
+
+    updateScrollRange();
+    window.addEventListener('resize', updateScrollRange);
+    return () => window.removeEventListener('resize', updateScrollRange);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: targetRef,
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
+  // Transform vertical scroll (0 to 1) into horizontal pixels (0 to -scrollRange)
+  const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
 
   return (
-    <section ref={targetRef} className="relative h-[300vh] bg-secondary text-white hidden md:block">
+    // The height '400vh' determines how long the horizontal scroll section lasts
+    <section ref={targetRef} className="relative h-[400vh] bg-secondary text-white hidden md:block">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         
         {/* Fixed Header Overlay */}
-        <div className="absolute top-10 left-10 z-20 mix-blend-difference">
+        <div className="absolute top-10 left-10 z-20 mix-blend-difference pointer-events-none">
            <h2 className="font-display text-4xl font-bold uppercase tracking-tight">Selected Works</h2>
         </div>
 
-        <motion.div style={{ x }} className="flex gap-16 px-20 w-full">
+        <motion.div ref={scrollContainerRef} style={{ x }} className="flex gap-16 px-20 w-max">
           
           {/* Intro Card */}
-          <div className="flex-shrink-0 w-[40vw] h-[70vh] flex flex-col justify-center">
-             <h2 className="font-display text-[8rem] leading-[0.8] font-bold uppercase mb-8">
+          <div className="flex-shrink-0 w-[40vw] h-[70vh] flex flex-col justify-center pl-10">
+             <h2 className="font-display text-[8rem] leading-[0.8] font-bold uppercase mb-8 whitespace-nowrap">
                The<br/>Work
              </h2>
              <p className="text-gray-400 max-w-md text-xl leading-relaxed mb-10">
@@ -73,9 +93,9 @@ export const Projects: React.FC = () => {
           ))}
 
           {/* Outro Card */}
-          <div className="flex-shrink-0 w-[30vw] h-[70vh] flex items-center justify-center">
+          <div className="flex-shrink-0 w-[30vw] h-[70vh] flex items-center justify-center pr-20">
              <MagneticButton>
-                <button className="text-8xl font-display uppercase font-bold hover:text-gray-400 transition-colors">
+                <button className="text-8xl font-display uppercase font-bold hover:text-gray-400 transition-colors whitespace-nowrap">
                   View All<br/>Projects
                 </button>
              </MagneticButton>
@@ -119,7 +139,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   );
 };
 
-// Fallback for Mobile (Vertical Stack)
 export const MobileProjects = () => {
     return null;
 };
