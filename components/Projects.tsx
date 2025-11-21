@@ -50,9 +50,9 @@ export const Projects: React.FC = () => {
     };
 
     updateScrollRange();
-    
+
     const handleResize = () => {
-        updateScrollRange();
+      updateScrollRange();
     };
 
     window.addEventListener('resize', handleResize);
@@ -74,26 +74,26 @@ export const Projects: React.FC = () => {
   return (
     <section ref={targetRef} className="relative h-[400vh] bg-secondary text-white hidden md:block">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        
+
         <div className="absolute top-10 left-10 z-20 mix-blend-difference pointer-events-none">
-           <h2 className="font-display text-4xl font-bold uppercase tracking-tight">Selected Works</h2>
+          <h2 className="font-display text-4xl font-bold uppercase tracking-tight">Selected Works</h2>
         </div>
 
         <motion.div ref={scrollContainerRef} style={{ x }} className="flex gap-16 px-20 w-max items-center">
-          
+
           {/* Intro Card */}
           <div className="flex-shrink-0 w-[40vw] h-[70vh] flex flex-col justify-center pl-10">
-             <h2 className="font-display text-[8rem] leading-[0.8] font-bold uppercase mb-8 whitespace-nowrap">
-               The<br/>Work
-             </h2>
-             <p className="text-gray-400 max-w-md text-xl leading-relaxed mb-10">
-               A curated selection of our defining projects. Where engineering meets art, and vision becomes reality.
-             </p>
-             <MagneticButton>
-                <div className="w-32 h-32 rounded-full border border-white/20 flex items-center justify-center uppercase text-xs tracking-widest font-bold hover:bg-white hover:text-secondary transition-all duration-300 cursor-pointer">
-                  Drag &rarr;
-                </div>
-             </MagneticButton>
+            <h2 className="font-display text-[8rem] leading-[0.8] font-bold uppercase mb-8 whitespace-nowrap">
+              The<br />Work
+            </h2>
+            <p className="text-gray-400 max-w-md text-xl leading-relaxed mb-10">
+              A curated selection of our defining projects. Where engineering meets art, and vision becomes reality.
+            </p>
+            <MagneticButton>
+              <div className="w-32 h-32 rounded-full border border-white/20 flex items-center justify-center uppercase text-xs tracking-widest font-bold hover:bg-white hover:text-secondary transition-all duration-300 cursor-pointer">
+                Drag &rarr;
+              </div>
+            </MagneticButton>
           </div>
 
           {/* Project Cards */}
@@ -103,11 +103,11 @@ export const Projects: React.FC = () => {
 
           {/* Outro Card */}
           <div className="flex-shrink-0 w-[30vw] h-[70vh] flex items-center justify-center pr-20">
-             <MagneticButton>
-                <button className="text-8xl font-display uppercase font-bold hover:text-gray-400 transition-colors whitespace-nowrap text-left leading-none">
-                  View All<br/>Projects
-                </button>
-             </MagneticButton>
+            <MagneticButton>
+              <button className="text-8xl font-display uppercase font-bold hover:text-gray-400 transition-colors whitespace-nowrap text-left leading-none">
+                View All<br />Projects
+              </button>
+            </MagneticButton>
           </div>
 
         </motion.div>
@@ -129,25 +129,70 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
-      
+
       <div className="absolute bottom-0 left-0 w-full p-10 flex justify-between items-end transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
         <div>
           <div className="flex items-center gap-4 mb-2">
-             <span className="text-xs font-bold border border-white/30 rounded-full px-3 py-1">{project.year}</span>
-             <span className="text-xs font-bold uppercase tracking-widest">{project.location}</span>
+            <span className="text-xs font-bold border border-white/30 rounded-full px-3 py-1">{project.year}</span>
+            <span className="text-xs font-bold uppercase tracking-widest">{project.location}</span>
           </div>
           <h3 className="font-display text-6xl uppercase font-bold">{project.title}</h3>
         </div>
         <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-           <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-black">
-              &rarr;
-           </div>
+          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-black">
+            &rarr;
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export const MobileProjects = () => {
-    return null;
+export const MobileProjects: React.FC = () => {
+  return (
+    <section className="w-full bg-secondary text-white py-20 px-6 md:hidden block">
+      <div className="mb-12">
+        <span className="text-xs font-bold tracking-widest uppercase text-gray-400 mb-4 block">
+          ● Selected Works
+        </span>
+        <h2 className="font-display text-5xl font-bold uppercase leading-[0.9]">
+          The<br />Work
+        </h2>
+      </div>
+
+      <div className="flex flex-col gap-12">
+        {projects.map((project) => (
+          <div key={project.id} className="group relative w-full aspect-[4/5] overflow-hidden bg-neutral-900">
+            <img
+              src={project.image}
+              alt={project.title}
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80" />
+
+            <div className="absolute bottom-0 left-0 w-full p-6">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-[10px] font-bold border border-white/30 rounded-full px-2 py-1">{project.year}</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest">{project.location}</span>
+              </div>
+              <h3 className="font-display text-4xl uppercase font-bold mb-2">{project.title}</h3>
+              <div className="w-full h-[1px] bg-white/20 mt-4" />
+              <div className="flex justify-between items-center mt-4">
+                <span className="text-xs font-bold uppercase tracking-widest">View Project</span>
+                <span className="text-xl">&rarr;</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-16 flex justify-center">
+        <MagneticButton>
+          <button className="px-8 py-4 border border-white/20 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-secondary transition-colors">
+            View All Projects
+          </button>
+        </MagneticButton>
+      </div>
+    </section>
+  );
 };

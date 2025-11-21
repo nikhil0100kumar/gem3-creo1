@@ -5,7 +5,7 @@ import { Hero } from './components/Hero';
 import { Manifesto } from './components/Manifesto';
 import { Vista } from './components/Vista';
 import { Story } from './components/Story';
-import { Projects } from './components/Projects';
+import { Projects, MobileProjects } from './components/Projects';
 import { Process } from './components/Process';
 import { Collection } from './components/Collection';
 import { Footer } from './components/Footer';
@@ -53,6 +53,7 @@ const App: React.FC = () => {
         <Vista />
         <Story />
         <Projects />
+        <MobileProjects />
         <Process />
         <Collection />
       </main>
