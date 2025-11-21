@@ -35,7 +35,7 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-secondary font-sans antialiased selection:bg-white selection:text-black cursor-none">
+    <div className="w-full min-h-screen bg-secondary font-sans antialiased selection:bg-white selection:text-black cursor-none overflow-x-hidden">
       <CustomCursor />
 
       {/* Cinematic Grain Overlay - CSS Version for Stability */}

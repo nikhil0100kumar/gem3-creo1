@@ -33,7 +33,8 @@ export const Process: React.FC = () => {
 
   return (
     <section className="relative w-full bg-secondary text-white py-20">
-      <div className="flex flex-col md:flex-row">
+      {/* Desktop View */}
+      <div className="hidden md:flex flex-col md:flex-row">
         {/* Left Sticky Header & Dynamic Image */}
         <div className="w-full md:w-1/2 h-[40vh] md:h-screen sticky top-0 flex flex-col justify-center z-10 bg-secondary overflow-hidden">
 
@@ -92,19 +93,45 @@ export const Process: React.FC = () => {
                 transition={{ duration: 0.6 }}
                 className="cursor-default"
               >
-                <span className={`font-display text-3xl md:text-6xl font-bold mb-2 md:mb-4 block transition-colors duration-500 ${activeStep === index ? 'text-white' : 'text-white/20'}`}>
+                <span className={`font-display text-4xl md:text-6xl font-bold mb-4 block transition-colors duration-500 ${activeStep === index ? 'text-white' : 'text-white/20'}`}>
                   {step.id}/
                 </span>
-                <h3 className={`font-display text-2xl md:text-5xl font-bold uppercase mb-4 md:mb-6 transition-colors duration-500 ${activeStep === index ? 'text-white' : 'text-white/40'}`}>
+                <h3 className={`font-display text-3xl md:text-5xl font-bold uppercase mb-6 transition-colors duration-500 ${activeStep === index ? 'text-white' : 'text-white/40'}`}>
                   {step.title}
                 </h3>
-                <p className={`font-sans text-base md:text-xl max-w-md leading-relaxed transition-colors duration-500 ${activeStep === index ? 'text-gray-200' : 'text-gray-600'}`}>
+                <p className={`font-sans text-lg md:text-xl max-w-md leading-relaxed transition-colors duration-500 ${activeStep === index ? 'text-gray-200' : 'text-gray-600'}`}>
                   {step.desc}
                 </p>
               </motion.div>
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Mobile View */}
+      <div className="md:hidden flex flex-col gap-16 px-6">
+        <div className="mb-8">
+          <span className="text-xs font-bold tracking-widest uppercase text-accent mb-2 block">● Our Process</span>
+          <h2 className="font-display text-5xl font-bold uppercase leading-[0.9]">
+            From Vision<br />To Reality
+          </h2>
+        </div>
+
+        {steps.map((step) => (
+          <div key={step.id} className="flex flex-col gap-6">
+            <div className="w-full h-[300px] overflow-hidden relative">
+              <img src={step.image} alt={step.title} className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-black/20" />
+              <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+                <span className="text-xs font-bold text-white">{step.id}</span>
+              </div>
+            </div>
+            <div>
+              <h3 className="font-display text-3xl font-bold uppercase mb-3">{step.title}</h3>
+              <p className="text-gray-400 leading-relaxed">{step.desc}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
